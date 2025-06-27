@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Language Translator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    }
+    .translate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    textarea {
+      min-height: 150px;
+      resize: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-blue-600 text-white p-6 text-center">
+      <h1 class="text-3xl font-bold">AI Language Translator</h1>
+      <p class="mt-2 opacity-90">Translate between English and French</p>
+    </div>
+
+    <!-- Form Start -->
+    <form method="POST" action="/translate">
+      <div class="p-6">
+        <!-- Input Text -->
+        <div class="mb-4">
+          <label for="sentence" class="block text-gray-700 font-medium mb-2">Input Text</label>
+          <textarea name="sentence" id="sentence" placeholder="Type your text here..." required class="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ input_text or '' }}</textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full py-3 gradient-bg text-white font-medium rounded-lg mb-6 transition-all duration-200 translate-btn">
+          <i class="fas fa-language mr-2"></i> Translate
+        </button>
+
+        <!-- Output Text -->
+        <div>
+          <label class="block text-gray-700 font-medium mb-2">Translation</label>
+          <textarea readonly id="translation" class="w-full p-4 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Translation will appear here...">{{ output_text or '' }}</textarea>
+          <div class="flex justify-end mt-2">
+            <button type="button" id="copyTranslation" class="text-blue-500 hover:text-blue-700 font-medium">
+              <i class="fas fa-copy mr-1"></i> Copy Translation
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Form End -->
+
+    <!-- Features -->
+    <div class="bg-gray-50 p-6 border-t">
+      <h3 class="text-xl font-semibold mb-4 text-gray-800">Translation Features</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-start">
+          <div class="text-blue-500 mr-3 mt-1"><i class="fas fa-language"></i></div>
+          <div>
+            <h4 class="font-medium text-gray-800">Bidirectional Support</h4>
+            <p class="text-gray-600 text-sm">Translate both English → French and French → English</p>
+          </div>
+        </div>
+        <div class="flex items-start">
+          <div class="text-blue-500 mr-3 mt-1"><i class="fas fa-copy"></i></div>
+          <div>
+            <h4 class="font-medium text-gray-800">One-Click Copy</h4>
+            <p class="text-gray-600 text-sm">Copy translated output to clipboard easily</p>
+          </div>
+        </div>
+        <div class="flex items-start">
+          <div class="text-blue-500 mr-3 mt-1"><i class="fas fa-sync-alt"></i></div>
+          <div>
+            <h4 class="font-medium text-gray-800">Fast and Accurate</h4>
+            <p class="text-gray-600 text-sm">Built on your custom-trained LSTM sequence-to-sequence model</p>
+          </div>
+        </div>
+        <div class="flex items-start">
+          <div class="text-blue-500 mr-3 mt-1"><i class="fas fa-mobile-alt"></i></div>
+          <div>
+            <h4 class="font-medium text-gray-800">Responsive Design</h4>
+            <p class="text-gray-600 text-sm">Mobile-friendly and desktop optimized</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Copy translation text
+    document.getElementById('copyTranslation')?.addEventListener('click', () => {
+      const translation = document.getElementById('translation');
+      translation.select();
+      document.execCommand('copy');
+
+      const btn = document.getElementById('copyTranslation');
+      btn.innerHTML = '<i class="fas fa-check mr-1"></i> Copied!';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-copy mr-1"></i> Copy Translation';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
